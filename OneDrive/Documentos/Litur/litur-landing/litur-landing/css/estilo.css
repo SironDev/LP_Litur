@@ -1,0 +1,276 @@
+/* ==========================================================================
+   estilo.css — VISUAL DA LANDING PAGE LITUR
+   Organização: 1) variáveis  2) base  3) palco das fotos  4) cabeçalho
+   5) etapas/painéis  6) botões  7) seções  8) formulário  9) rodapé
+   10) celular  11) movimento reduzido
+   ========================================================================== */
+
+/* ---------- 1) VARIÁVEIS: mude aqui as cores e a fonte do site todo ---------- */
+:root { /* :root = a página inteira; variáveis começam com -- */
+  --azul: #0b4f9c; /* Azul principal da Litur */
+  --azul-escuro: #06284f; /* Azul escuro para fundos */
+  --azul-noite: #061830; /* Azul quase preto (fundo do palco) */
+  --amarelo: #f5a800; /* Amarelo/dourado de destaque */
+  --branco: #ffffff; /* Branco */
+  --texto-suave: #c5d3e6; /* Texto secundário sobre fundo escuro */
+  --vidro: rgba(6, 24, 48, 0.72); /* Fundo dos painéis (azul translúcido) */
+  --linha: rgba(255, 255, 255, 0.14); /* Bordas finas */
+  --raio: 18px; /* Arredondamento padrão dos cantos */
+  --fonte: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; /* Fonte e reservas */
+  --topo: 72px; /* Altura do cabeçalho (usada para compensar âncoras) */
+} /* Fim das variáveis */
+
+/* ---------- 2) BASE ---------- */
+*, *::before, *::after { box-sizing: border-box; } /* Largura inclui borda e espaçamento (cálculo mais previsível) */
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--topo) + 12px); } /* Rolagem suave nos links internos; compensa o cabeçalho fixo */
+body { /* Corpo da página */
+  margin: 0; /* Remove a margem padrão do navegador */
+  font-family: var(--fonte); /* Aplica a fonte */
+  color: var(--branco); /* Texto branco (o fundo é escuro) */
+  background: var(--azul-noite); /* Cor de reserva enquanto as fotos carregam */
+  line-height: 1.6; /* Espaço entre linhas confortável para leitura */
+  -webkit-font-smoothing: antialiased; /* Letras mais lisas no Mac/iPhone */
+} /* Fim do body */
+img { max-width: 100%; height: auto; display: block; } /* Imagens nunca estouram a largura e não distorcem */
+a { color: var(--amarelo); } /* Links em amarelo */
+h1, h2, h3 { line-height: 1.1; margin: 0 0 .5em; letter-spacing: -0.02em; } /* Títulos mais justos e elegantes */
+:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 3px; border-radius: 6px; } /* Contorno visível ao navegar pelo teclado (acessibilidade) */
+.pular { position: fixed; left: 12px; top: -60px; z-index: 100; background: var(--amarelo); color: #111; padding: 10px 16px; border-radius: 8px; font-weight: 700; } /* Link "pular" escondido acima da tela */
+.pular:focus { top: 12px; } /* Aparece quando recebe foco pelo TAB */
+.pendente { color: #ffd166; background: rgba(245, 168, 0, .14); border: 1px dashed rgba(245, 168, 0, .6); border-radius: 6px; padding: 0 6px; font-style: normal; } /* Estilo dos dados que faltam confirmar: tracejado amarelo, bem visível */
+
+/* ---------- 3) PALCO DAS FOTOS (fixo atrás de tudo) ---------- */
+#palco { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: var(--azul-noite); } /* Ocupa a tela inteira, parado, atrás do conteúdo */
+.slide { position: absolute; inset: 0; opacity: 0; transition: opacity .9s ease; } /* Cada foto fica empilhada e invisível... */
+.slide.ativo { opacity: 1; } /* ...até virar a ativa: aparece com fade (a anterior some ao mesmo tempo) */
+.slide-fundo { position: absolute; inset: -10%; width: 120%; height: 120%; object-fit: cover; filter: blur(40px) brightness(.5) saturate(1.2); } /* Mesma foto, ampliada e borrada, preenchendo a tela (sobra de 10% esconde a borda clara do desfoque) */
+.slide-foto { /* Foto nítida (computador: à direita) */
+  position: absolute; right: 0; top: 50%; /* Encostada à direita, centralizada na vertical */
+  width: 60vw; height: auto; max-height: 100vh; object-fit: cover; object-position: 50% 45%; /* Largura fixa, altura proporcional; se passar da tela, corta o mínimo possível */
+  transform: translateY(-50%) scale(calc(1.02 + var(--p, 0) * .08)); /* Centraliza e aplica o zoom: --p vem do JavaScript (0 a 1 conforme a rolagem dentro da seção) */
+  transition: transform .35s ease-out; /* Suaviza o zoom entre um evento de rolagem e outro */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 25%, #000 92%, transparent), linear-gradient(0deg, transparent, #000 14%, #000 86%, transparent); /* Duas máscaras: esfuma as laterais e o topo/base */
+  -webkit-mask-composite: source-in; mask-composite: intersect; /* Combina as duas máscaras (só fica visível onde as duas são opacas) */
+  mask-image: linear-gradient(90deg, transparent, #000 25%, #000 92%, transparent), linear-gradient(0deg, transparent, #000 14%, #000 86%, transparent); /* Versão padrão da máscara (Firefox e outros) */
+} /* Fim da foto nítida */
+.veu { z-index: 2; /* Fica por cima das fotos */ /* Película para dar contraste ao texto */
+  position: absolute; inset: 0; /* Cobre tudo */
+  background: linear-gradient(90deg, rgba(6,24,48,.92) 0%, rgba(6,24,48,.65) 38%, rgba(6,24,48,0) 60%), /* Escurece a esquerda (onde fica o texto) */
+              linear-gradient(0deg, rgba(6,24,48,.55), transparent 30%); /* Escurece um pouco a parte de baixo */
+} /* Fim do véu */
+
+/* ---------- 4) CABEÇALHO ---------- */
+.aviso-proposta { position: relative; z-index: 31; text-align: center; font-size: .75rem; padding: 6px 12px; background: var(--amarelo); color: #1a1a1a; font-weight: 600; } /* Faixa amarela no topo avisando que é proposta */
+.aviso-proposta .pendente { color: #1a1a1a; border-color: #1a1a1a; background: transparent; } /* Ajuste do [ ] dentro da faixa amarela */
+#topo { /* Barra de navegação */
+  position: sticky; top: 0; z-index: 30; /* "Gruda" no topo ao rolar */
+  height: var(--topo); /* Altura fixa */
+  display: flex; align-items: center; gap: 24px; /* Itens em linha, centralizados na vertical */
+  padding: 0 clamp(16px, 4vw, 48px); /* Espaço lateral que cresce com a tela (mínimo 16, máximo 48px) */
+  background: rgba(6, 24, 48, .35); /* Azul bem transparente no início */
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); /* Desfoca o que passa por trás (efeito vidro) */
+  transition: background .3s; /* Transição suave da cor */
+} /* Fim do topo */
+.rolou #topo { background: rgba(6, 24, 48, .88); } /* Depois de rolar, fica mais sólido (melhor leitura) */
+.marca { display: flex; align-items: center; gap: 10px; color: var(--branco); text-decoration: none; font-weight: 600; font-size: 1.15rem; } /* Logotipo em texto */
+.marca b { color: var(--amarelo); font-weight: 800; margin-left: 4px; } /* "Turismo" em amarelo */
+.marca-l { width: 38px; height: 38px; border-radius: 10px; background: var(--azul); color: var(--amarelo); display: grid; place-items: center; font-weight: 800; font-size: 1.3rem; box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); } /* Quadradinho com o L */
+nav { margin-left: auto; } /* Empurra o menu para a direita */
+#menu { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; } /* Itens do menu em linha, sem marcadores */
+#menu a { color: var(--texto-suave); text-decoration: none; font-weight: 600; font-size: .92rem; padding: 8px 12px; border-radius: 999px; transition: .2s; } /* Links do menu */
+#menu a:hover, #menu a.ativo { color: var(--branco); background: rgba(255,255,255,.1); } /* Destaque ao passar o mouse e na seção atual */
+.menu-botao { display: none; } /* Botão "Menu" só aparece no celular */
+.estrada-progresso { position: absolute; left: 0; right: 0; bottom: -3px; height: 3px; background: rgba(255,255,255,.08); } /* Trilho da barra de progresso, embaixo do cabeçalho */
+#progresso { display: block; height: 100%; background: linear-gradient(90deg, var(--amarelo), #ffd36b); transform-origin: left; transform: scaleX(0); } /* Parte preenchida (cresce da esquerda) */
+#mini-onibus { position: absolute; top: -9px; left: 0; font-size: 14px; font-style: normal; transform: translateX(-50%) scaleX(-1); } /* Mini ônibus andando na barra (scaleX(-1) vira o emoji para a direita) */
+
+/* ---------- 5) ETAPAS E PAINÉIS ---------- */
+.etapa { /* Cada "parada" da viagem */
+  min-height: 100vh; /* Pelo menos uma tela de altura (dá tempo do ônibus andar) */
+  display: flex; align-items: center; /* Centraliza o conteúdo na vertical */
+  padding: 120px clamp(16px, 5vw, 72px); /* Espaço em volta */
+} /* Fim da etapa */
+.conteudo { width: min(560px, 100%); opacity: 0; transform: translateY(40px); transition: opacity .8s ease, transform .8s ease; } /* Coluna de conteúdo: começa invisível e mais baixa */
+.visivel .conteudo { opacity: 1; transform: none; } /* Quando a etapa aparece: surge suavemente */
+.painel { background: var(--vidro); border: 1px solid var(--linha); border-radius: var(--raio); padding: clamp(22px, 3vw, 38px); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); } /* Caixa de vidro fosco */
+.painel-largo { width: min(1080px, 100%); } /* Painéis que precisam de mais espaço */
+.etapa-larga { justify-content: center; } /* Centraliza os painéis largos */
+.km { display: inline-block; font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--amarelo); border-left: 3px solid var(--amarelo); padding-left: 10px; margin: 0 0 14px; } /* Marcador "KM 02 ·" estilo placa de estrada */
+h2 { font-size: clamp(1.8rem, 3.6vw, 2.8rem); font-weight: 800; } /* Título de seção que se adapta à tela */
+.subtitulo { margin-top: 28px; font-size: 1.15rem; } /* Subtítulos internos */
+.marcador-etapa { position: fixed; left: 14px; bottom: 28px; z-index: 20; display: flex; gap: 10px; align-items: center; writing-mode: vertical-rl; transform: rotate(180deg); font-size: .72rem; color: var(--texto-suave); text-transform: uppercase; letter-spacing: .14em; } /* Marcador da etapa atual: texto vertical rente à borda esquerda (não cobre o conteúdo) */
+#etapa-num { font-size: 1.3rem; font-weight: 800; color: var(--amarelo); writing-mode: horizontal-tb; transform: rotate(180deg); } /* Número da etapa (deitado de volta na horizontal) */
+
+/* ---------- 6) BOTÕES ---------- */
+.btn { /* Base de todos os botões */
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; /* Conteúdo centralizado */
+  padding: 14px 26px; border-radius: 999px; border: 2px solid transparent; /* Formato de pílula */
+  font: 700 1rem var(--fonte); text-decoration: none; cursor: pointer; /* Texto e cursor de "clicável" */
+  transition: transform .2s, background .2s, box-shadow .2s; /* Animações suaves */
+} /* Fim do .btn */
+.btn:hover { transform: translateY(-2px); } /* Sobe um pouquinho ao passar o mouse */
+.btn-amarelo { background: var(--amarelo); color: #14181f; box-shadow: 0 10px 30px -10px rgba(245,168,0,.7); } /* Botão principal: amarelo com brilho */
+.btn-amarelo:hover { background: #ffb81f; } /* Amarelo mais claro no hover */
+.btn-vazado { border-color: rgba(255,255,255,.5); color: var(--branco); background: rgba(255,255,255,.04); } /* Botão secundário: só contorno */
+.btn-vazado:hover { border-color: var(--branco); background: rgba(255,255,255,.1); } /* Contorno mais forte no hover */
+.btn-pequeno { padding: 9px 18px; font-size: .9rem; } /* Variante menor */
+.btn-grande { padding: 17px 34px; font-size: 1.08rem; } /* Variante maior */
+
+/* ---------- 7) SEÇÕES ---------- */
+/* Hero */
+.etapa-hero .conteudo { width: min(640px, 100%); } /* Coluna do hero um pouco mais larga */
+.sobretitulo { color: var(--texto-suave); font-weight: 600; font-size: .9rem; letter-spacing: .04em; } /* Linha acima do título */
+h1 { font-size: clamp(2.6rem, 6.2vw, 4.8rem); font-weight: 800; } /* Título principal grande e adaptável */
+h1 em { font-style: normal; color: var(--amarelo); } /* Parte destacada do título */
+.lead { font-size: clamp(1.05rem, 1.6vw, 1.25rem); color: var(--texto-suave); max-width: 46ch; } /* Texto de apoio (no máximo ~46 letras por linha) */
+.acoes { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 40px; } /* Botões lado a lado, quebrando linha se precisar */
+.dica-scroll { display: flex; align-items: center; gap: 12px; font-size: .85rem; color: var(--texto-suave); } /* Convite para rolar */
+.seta { width: 22px; height: 34px; border: 2px solid var(--texto-suave); border-radius: 12px; position: relative; } /* Desenho de um "mouse" */
+.seta::after { content: ""; position: absolute; left: 50%; top: 6px; width: 4px; height: 7px; margin-left: -2px; border-radius: 2px; background: var(--amarelo); animation: rolar 1.6s infinite; } /* Bolinha que desce dentro do mouse */
+@keyframes rolar { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(12px); opacity: 0; } } /* Animação da bolinha */
+
+/* Empresa: números */
+.numeros { list-style: none; padding: 0; margin: 24px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--linha); border-radius: 14px; overflow: hidden; } /* Grade 2x2 com linhas finas entre os itens */
+.numeros li { background: var(--azul-noite); padding: 18px; display: flex; flex-direction: column; gap: 4px; } /* Cada item */
+.numeros strong { font-size: 1.7rem; font-weight: 800; color: var(--amarelo); align-self: flex-start; } /* Número em destaque */
+.numeros span { font-size: .88rem; color: var(--texto-suave); line-height: 1.35; } /* Descrição */
+.numeros small { opacity: .7; font-size: .75rem; } /* Observação pequena (fonte da informação) */
+
+/* Serviços */
+.servicos { display: flex; flex-direction: column; margin-top: 18px; } /* Lista vertical (não 4 cartões iguais) */
+.servico { display: grid; grid-template-columns: 54px 1fr auto; gap: 16px; align-items: center; padding: 18px 0; border-top: 1px solid var(--linha); } /* Linha: número | texto | botão */
+.servico-num { font-size: 1.5rem; font-weight: 800; color: transparent; -webkit-text-stroke: 1.5px var(--amarelo); } /* Número só com contorno amarelo */
+.servico h3 { font-size: 1.2rem; margin: 0 0 2px; } /* Nome do serviço */
+.servico p { margin: 0; color: var(--texto-suave); font-size: .92rem; } /* Descrição */
+.servico ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 8px 0 0; } /* Benefícios em "etiquetas" */
+.servico li { font-size: .75rem; padding: 3px 10px; border-radius: 999px; background: rgba(255,255,255,.08); } /* Cada etiqueta */
+
+/* Frota */
+.abas { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 18px; } /* Abas dos veículos */
+.aba { font: 600 .92rem var(--fonte); padding: 9px 18px; border-radius: 999px; border: 1px solid var(--linha); background: transparent; color: var(--texto-suave); cursor: pointer; } /* Aba normal */
+.aba[aria-selected="true"] { background: var(--amarelo); border-color: var(--amarelo); color: #14181f; } /* Aba ativa em amarelo */
+.frota-grade { display: grid; grid-template-columns: 1.6fr 1fr; gap: 24px; align-items: stretch; } /* Fotos maiores à esquerda, ficha à direita */
+.carrossel { margin: 0; min-width: 0; } /* Contêiner do carrossel (min-width: 0 evita que ele estoure a grade) */
+.carrossel-palco { position: relative; border-radius: 14px; overflow: hidden; background: #0c1626; border: 1px solid var(--linha); } /* Moldura da foto grande */
+.carrossel-trilho { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; } /* Fotos lado a lado; cada uma "encaixa" no lugar; sem barra de rolagem */
+.carrossel-trilho::-webkit-scrollbar { display: none; } /* Esconde a barra de rolagem no Chrome/Safari */
+.carrossel-slide { flex: 0 0 100%; height: clamp(300px, 48vh, 470px); scroll-snap-align: start; } /* Cada foto ocupa a largura toda da moldura */
+.carrossel-slide img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; } /* Foto preenche a moldura sem distorcer; cursor de lupa (clique amplia) */
+.carrossel-vazio { display: grid; place-items: center; text-align: center; padding: 24px; border: 2px dashed rgba(245,168,0,.5); border-radius: 14px; color: var(--texto-suave); } /* Espaço reservado quando o veículo ainda não tem fotos */
+.carrossel-vazio code { color: var(--amarelo); } /* Caminho do arquivo em destaque */
+.carrossel-seta { position: absolute; top: 50%; transform: translateY(-50%); width: 46px; height: 46px; border-radius: 50%; border: 0; background: rgba(6,24,48,.75); color: var(--branco); font-size: 1.8rem; line-height: 1; cursor: pointer; backdrop-filter: blur(6px); transition: background .2s, opacity .2s; } /* Botões redondos sobre a foto */
+.carrossel-seta:hover { background: var(--amarelo); color: #14181f; } /* Amarelo ao passar o mouse */
+.carrossel-seta:disabled { opacity: 0; pointer-events: none; } /* Some no começo/fim da lista */
+.carrossel-seta.anterior { left: 12px; } /* Seta da esquerda */
+.carrossel-seta.proxima { right: 12px; } /* Seta da direita */
+.carrossel-contador { position: absolute; top: 12px; right: 12px; font-size: .78rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: rgba(6,24,48,.8); } /* "1 / 4" no canto */
+.carrossel figcaption { font-size: .85rem; color: var(--texto-suave); padding: 10px 2px 8px; min-height: 2.4em; } /* Legenda abaixo da foto */
+.carrossel-miniaturas { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; } /* Faixa de miniaturas (rola de lado se tiver muitas) */
+.carrossel-miniaturas button { flex: 0 0 auto; padding: 0; border: 2px solid transparent; border-radius: 10px; overflow: hidden; background: none; cursor: pointer; opacity: .6; transition: opacity .2s, border-color .2s; } /* Miniatura apagada */
+.carrossel-miniaturas button[aria-current="true"] { opacity: 1; border-color: var(--amarelo); } /* Miniatura da foto atual: acesa, com borda amarela */
+.carrossel-miniaturas img { display: block; width: 84px; height: 60px; object-fit: cover; } /* Tamanho das miniaturas */
+#ampliar { padding: 0; border: 0; background: transparent; max-width: 94vw; max-height: 92vh; } /* Janela da foto ampliada, sem moldura */
+#ampliar::backdrop { background: rgba(3,10,22,.9); } /* Fundo escuro atrás da janela */
+#ampliar img { max-width: 94vw; max-height: 84vh; border-radius: 12px; } /* Foto ampliada cabe na tela */
+#ampliar button { display: block; margin: 12px auto 0; font: 700 .95rem var(--fonte); padding: 10px 22px; border-radius: 999px; border: 0; background: var(--amarelo); cursor: pointer; } /* Botão "Fechar" */
+.fonte-fotos { font-size: .78rem; margin-top: 16px; } /* Fonte das fotos, discreta */
+.frota-info h3 { font-size: 1.6rem; } /* Nome do veículo */
+.frota-info p { color: var(--texto-suave); } /* Descrição */
+.frota-info dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; margin: 18px 0 24px; font-size: .9rem; } /* Ficha técnica em duas colunas */
+.frota-info dt { color: var(--texto-suave); } /* Nome do item da ficha */
+.frota-info dd { margin: 0; font-weight: 600; justify-self: start; } /* Valor do item */
+
+/* Confiança */
+.docs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; } /* 3 documentos lado a lado */
+.doc { display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 12px; border: 1px solid var(--linha); background: rgba(255,255,255,.04); color: var(--branco); text-decoration: none; } /* Cartão do documento */
+.doc b { font-size: 1.2rem; } /* Sigla */
+.doc span { font-size: .78rem; color: var(--texto-suave); line-height: 1.3; } /* Nome completo */
+.doc small { margin-top: auto; padding-top: 8px; font-size: .75rem; align-self: flex-start; } /* Situação (empurrada para baixo) */
+.depoimentos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0 18px; } /* Dois depoimentos lado a lado */
+.depoimentos blockquote { margin: 0; padding: 18px; border-radius: 12px; font-size: .85rem; } /* Bloco de depoimento */
+.depoimentos .vazio { border: 1px dashed rgba(245,168,0,.5); color: var(--texto-suave); } /* Espaço reservado, tracejado */
+
+/* FAQ e Instagram */
+.faq details { border-top: 1px solid var(--linha); } /* Linha entre perguntas */
+.faq summary { cursor: pointer; padding: 14px 28px 14px 0; font-weight: 600; list-style: none; position: relative; } /* Pergunta clicável */
+.faq summary::-webkit-details-marker { display: none; } /* Remove a setinha padrão do Safari */
+.faq summary::after { content: "+"; position: absolute; right: 4px; color: var(--amarelo); font-size: 1.3rem; line-height: 1; transition: transform .2s; } /* Sinal de + à direita */
+.faq details[open] summary::after { transform: rotate(45deg); } /* Vira um × quando aberto */
+.faq details p { margin: 0 0 14px; color: var(--texto-suave); font-size: .92rem; } /* Resposta */
+.insta { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 22px; padding: 18px; border-radius: 12px; background: linear-gradient(120deg, rgba(11,79,156,.6), rgba(245,168,0,.18)); } /* Faixa do Instagram */
+.insta p { margin: 0; } /* Sem margem extra */
+
+/* Chegada */
+.etapa-final { min-height: 120vh; align-items: flex-end; padding-bottom: 18vh; } /* Etapa mais longa: o ônibus termina de "chegar" */
+.grande { font-size: clamp(2.4rem, 5.5vw, 4.2rem); } /* Título final grande */
+
+/* ---------- 8) FORMULÁRIO ---------- */
+.campos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 22px 0 10px; } /* 4 colunas de campos */
+.campos label { display: flex; flex-direction: column; gap: 6px; font-size: .82rem; font-weight: 600; color: var(--texto-suave); } /* Rótulo acima do campo */
+.campos label:nth-child(-n+4), .campos .cheio { grid-column: span 2; } /* Primeiros campos e observações ocupam 2 colunas */
+.campos .cheio { grid-column: 1 / -1; } /* Observações ocupa a linha inteira */
+input, select, textarea { /* Estilo de todos os campos */
+  font: 500 1rem var(--fonte); color: var(--branco); /* Fonte e cor */
+  padding: 12px 14px; border-radius: 10px; /* Espaço interno e cantos */
+  border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.06); /* Borda e fundo translúcidos */
+  width: 100%; min-height: 48px; /* Altura mínima de 48px: fácil de tocar no celular */
+  transition: border-color .2s, box-shadow .2s; /* Transições */
+} /* Fim dos campos */
+select option { color: #111; } /* Opções do <select> legíveis (a lista abre com fundo branco) */
+input::-webkit-calendar-picker-indicator { filter: invert(1); } /* Ícone do calendário/relógio branco no Chrome */
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--amarelo); box-shadow: 0 0 0 3px rgba(245,168,0,.25); } /* Campo em foco: borda amarela */
+.erro { border-color: #ff6b6b !important; box-shadow: 0 0 0 3px rgba(255,107,107,.2); } /* Campo com erro: borda vermelha */
+.destaque { animation: piscar 1.2s ease 2; } /* Campo pré-preenchido pisca duas vezes */
+@keyframes piscar { 50% { border-color: var(--amarelo); box-shadow: 0 0 0 5px rgba(245,168,0,.4); } } /* Animação do piscar */
+.lgpd { font-size: .78rem; color: var(--texto-suave); } /* Aviso de privacidade */
+#form-status { min-height: 1.5em; margin: 14px 0 0; font-weight: 600; font-size: .92rem; } /* Mensagem de status */
+.status-erro { color: #ffb4a8; } /* Erro em vermelho-claro */
+.status-ok { color: #7ee2a8; } /* Sucesso em verde */
+
+/* ---------- 9) RODAPÉ E BOTÃO FLUTUANTE ---------- */
+#rodape { position: relative; background: var(--azul-noite); border-top: 3px solid var(--amarelo); padding: 48px clamp(16px, 5vw, 72px) 28px; font-size: .9rem; color: var(--texto-suave); } /* Rodapé sólido (cobre o vídeo) */
+.rodape-grade { display: grid; grid-template-columns: 2fr 1.4fr 1fr; gap: 32px; } /* 3 colunas */
+#rodape b { color: var(--branco); } /* Títulos das colunas */
+.direitos { margin: 32px 0 0; padding-top: 18px; border-top: 1px solid var(--linha); font-size: .78rem; } /* Linha de direitos */
+.zap-flutuante { position: fixed; right: 20px; bottom: 20px; z-index: 40; width: 58px; height: 58px; border-radius: 50%; background: #25d366; display: grid; place-items: center; box-shadow: 0 10px 30px -8px rgba(0,0,0,.5); transition: transform .2s; } /* Botão verde redondo no canto */
+.zap-flutuante:hover { transform: scale(1.08); } /* Cresce um pouco no hover */
+
+/* ---------- 10) TABLET E CELULAR ---------- */
+@media (max-width: 900px) { /* Telas com até 900px de largura */
+  :root { --topo: 62px; } /* Cabeçalho um pouco menor */
+  .veu { background: linear-gradient(0deg, rgba(6,24,48,.97) 0%, rgba(6,24,48,.88) 42%, rgba(6,24,48,.25) 68%, rgba(6,24,48,0) 85%); } /* Celular: o texto fica embaixo, então escurecemos bem a metade de baixo */
+  .etapa-hero .conteudo { text-shadow: 0 2px 18px rgba(6,24,48,.9); } /* Sombra no texto da abertura: legível mesmo sobre a foto */
+  .slide-foto { top: 88px; width: 100%; max-height: 62vh; transform: scale(calc(1.02 + var(--p, 0) * .08)); transform-origin: 50% 0; -webkit-mask-image: linear-gradient(0deg, transparent, #000 25%); mask-image: linear-gradient(0deg, transparent, #000 25%); } /* Celular: foto na largura toda, no alto da tela, esfumando embaixo */ /* No celular: escurecemos de baixo para cima */
+  .menu-botao { display: inline-flex; font: 600 .9rem var(--fonte); color: var(--branco); background: rgba(255,255,255,.1); border: 1px solid var(--linha); border-radius: 999px; padding: 8px 16px; cursor: pointer; } /* Mostra o botão "Menu" */
+  #menu { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; padding: 12px; background: rgba(6,24,48,.97); border-bottom: 1px solid var(--linha); } /* Menu escondido, abre embaixo do cabeçalho */
+  .menu-botao[aria-expanded="true"] + #menu { display: flex; } /* Abre quando o botão está "expandido" */
+  #menu a { display: block; padding: 14px; font-size: 1rem; } /* Itens grandes, fáceis de tocar */
+  #topo { gap: 12px; } /* Menos espaço entre itens */
+  .marca > span:last-child { display: none; } /* Esconde o nome, fica só o "L" (economiza espaço) */
+  .etapa { padding: 96px 14px; align-items: flex-end; } /* Conteúdo na parte de baixo: o ônibus aparece em cima */
+  .etapa-hero { padding-bottom: 96px; } /* Hero com respiro embaixo (o botão flutuante do WhatsApp não cobre os botões) */
+  .frota-grade, .rodape-grade { grid-template-columns: 1fr; } /* Uma coluna só */
+  .docs { grid-template-columns: 1fr; } /* Documentos empilhados */
+  .depoimentos { grid-template-columns: 1fr; } /* Depoimentos empilhados */
+  .campos { grid-template-columns: 1fr 1fr; } /* Formulário em 2 colunas */
+  .campos label:nth-child(-n+4) { grid-column: span 1; } /* Volta os primeiros campos para 1 coluna */
+  .servico { grid-template-columns: 40px 1fr; } /* Serviço: número | texto */
+  .servico .btn { grid-column: 2; justify-self: start; } /* Botão vai para baixo do texto */
+  .marcador-etapa { display: none; } /* Esconde o marcador lateral (pouco espaço) */
+  .zap-flutuante { width: 52px; height: 52px; right: 14px; bottom: 14px; } /* Botão flutuante um pouco menor */
+} /* Fim do tablet/celular */
+@media (max-width: 520px) { /* Celulares estreitos */
+  .campos { grid-template-columns: 1fr; } /* Formulário em uma coluna */
+  .numeros strong { font-size: 1.35rem; } /* Números menores */
+  .carrossel-slide { height: 58vw; min-height: 240px; } /* Fotos do carrossel proporcionais à largura do celular */
+  .acoes .btn { width: 100%; } /* Botões do hero ocupam a largura toda */
+  h1 { font-size: 2.2rem; } /* Título da abertura menor: sobra espaço para a foto do ônibus aparecer */
+  .etapa-hero .sobretitulo { display: none; } /* Esconde a linha de cima na abertura: libera espaço para a foto do ônibus */
+} /* Fim dos celulares estreitos */
+
+/* ---------- 11) MOVIMENTO REDUZIDO ---------- */
+@media (prefers-reduced-motion: reduce) { /* Pessoa pediu menos animação no sistema */
+  html { scroll-behavior: auto; } /* Sem rolagem suave */
+  .conteudo { opacity: 1; transform: none; transition: none; } /* Conteúdo aparece direto, sem deslizar */
+  .seta::after, .destaque { animation: none; } /* Sem animações repetitivas */
+} /* Fim do movimento reduzido */

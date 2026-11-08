@@ -1,0 +1,214 @@
+<!DOCTYPE html> <!-- Diz ao navegador que este arquivo usa o padrão HTML5 -->
+<html lang="pt-BR"> <!-- Abre o documento e informa o idioma (ajuda leitores de tela e o Google) -->
+<head> <!-- Cabeçalho invisível: configurações, título, estilos -->
+  <meta charset="utf-8"> <!-- Codificação UTF-8: permite acentos (ã, é, ç) sem erros -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> <!-- Faz a página se adaptar à largura do celular; viewport-fit=cover usa a tela toda no iPhone -->
+  <title>Litur Turismo | Fretamento de ônibus — Proposta de Landing Page</title> <!-- Texto da aba do navegador e do resultado no Google -->
+  <meta name="description" content="Fretamento de ônibus para excursões, eventos, viagens escolares e empresariais. Solicite seu orçamento com a Litur Turismo."> <!-- Resumo que o Google pode mostrar abaixo do título -->
+  <meta name="theme-color" content="#0b4f9c"> <!-- Cor da barra do navegador no celular (azul Litur) -->
+  <meta property="og:title" content="Litur Turismo | Seu destino começa com uma boa viagem"> <!-- Título do cartão quando o link é compartilhado no WhatsApp/Facebook -->
+  <meta property="og:description" content="Transporte com conforto e segurança para você, seu grupo ou sua empresa."> <!-- Descrição do cartão de compartilhamento -->
+  <meta property="og:image" content="img/fotos/onibus-gold-class.webp"> <!-- Imagem do cartão de compartilhamento (foto real da frota) -->
+  <meta name="robots" content="noindex"> <!-- PROPOSTA: impede o Google de indexar esta demonstração. Remova quando for publicar de verdade -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b4f9c'/%3E%3Ctext x='32' y='45' font-size='38' font-family='Arial' font-weight='700' fill='%23f5a800' text-anchor='middle'%3EL%3C/text%3E%3C/svg%3E"> <!-- Ícone da aba: um "L" amarelo em quadrado azul, desenhado em SVG dentro do próprio link -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Abre a conexão com o Google Fonts mais cedo (carrega a fonte mais rápido) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- Mesma coisa para o servidor que entrega os arquivos da fonte -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"> <!-- Fonte moderna "Plus Jakarta Sans"; sem internet, cai para a fonte do sistema -->
+  <link rel="stylesheet" href="css/estilo.css"> <!-- Liga o arquivo com todo o visual da página -->
+</head> <!-- Fim do cabeçalho -->
+<body> <!-- Início do conteúdo visível -->
+
+  <a class="pular" href="#orcamento">Pular para o orçamento</a> <!-- Link de acessibilidade: aparece ao apertar TAB e leva direto ao formulário -->
+
+  <!-- ===================== PALCO: fotos de fundo que trocam conforme a seção ===================== -->
+  <div id="palco" aria-hidden="true"> <!-- Camada fixa atrás de tudo; aria-hidden: leitores de tela ignoram (é decorativa) -->
+    <div class="veu"></div> <!-- Película escura em degradê por cima das fotos para o texto ficar legível -->
+    <!-- Os slides de foto são criados aqui dentro pelo js/galeria-scroll.js, a partir da lista "fundo" do config.js -->
+  </div> <!-- Fim do palco -->
+
+  <!-- ===================== FAIXA DE AVISO DA PROPOSTA ===================== -->
+  <div class="aviso-proposta" role="note"> <!-- Faixa fina no topo; role="note" indica que é uma observação -->
+    Proposta de demonstração · textos marcados com <span class="pendente">[ ]</span> aguardam dados oficiais da Litur <!-- Deixa claro que é um protótipo e que nada foi inventado -->
+  </div> <!-- Fim da faixa -->
+
+  <!-- ===================== CABEÇALHO / NAVEGAÇÃO ===================== -->
+  <header id="topo"> <!-- Barra de navegação fixa no topo -->
+    <a class="marca" href="#inicio" aria-label="Litur Turismo — voltar ao início"> <!-- Logotipo que volta ao início -->
+      <span class="marca-l">L</span> <!-- Quadradinho com a letra L (substitua pelo logo oficial em SVG/PNG) -->
+      <span>Litur<b>Turismo</b></span> <!-- Nome da empresa; <b> deixa "Turismo" com outro peso -->
+    </a> <!-- Fim do logotipo -->
+    <nav aria-label="Seções da página"> <!-- Menu principal; aria-label descreve o menu para leitores de tela -->
+      <button class="menu-botao" aria-expanded="false" aria-controls="menu">Menu</button> <!-- Botão que abre o menu no celular -->
+      <ul id="menu"> <!-- Lista de links do menu -->
+        <li><a href="#empresa">A empresa</a></li> <!-- Link para a seção Empresa -->
+        <li><a href="#servicos">Serviços</a></li> <!-- Link para Serviços -->
+        <li><a href="#frota">Frota</a></li> <!-- Link para Frota -->
+        <li><a href="#confianca">Confiança</a></li> <!-- Link para Confiança -->
+        <li><a href="#faq">Dúvidas</a></li> <!-- Link para o FAQ -->
+      </ul> <!-- Fim da lista -->
+    </nav> <!-- Fim do menu -->
+    <a class="btn btn-amarelo btn-pequeno" href="#orcamento" data-evento="clique_orcamento_topo">Orçamento</a> <!-- Botão de orçamento sempre visível; data-evento = nome do evento de analytics -->
+    <div class="estrada-progresso" aria-hidden="true"><span id="progresso"></span><i id="mini-onibus">🚌</i></div> <!-- Barrinha de "estrada" que enche conforme o scroll, com um mini ônibus andando -->
+  </header> <!-- Fim do cabeçalho -->
+
+  <main> <!-- Conteúdo principal (importante para SEO e acessibilidade) -->
+
+    <!-- ===================== 1. A PARTIDA (HERO) ===================== -->
+    <section id="inicio" class="etapa etapa-hero" data-nome="A partida"> <!-- Primeira etapa da viagem; data-nome aparece no marcador lateral -->
+      <div class="conteudo"> <!-- Coluna de texto (à esquerda no computador) -->
+        <p class="sobretitulo">Fretamento de ônibus · Excursões · Eventos · Empresas</p> <!-- Linha pequena acima do título: diz rapidamente o que a Litur faz -->
+        <h1>Seu destino começa com uma <em>boa viagem.</em></h1> <!-- Título principal; <em> destaca parte da frase em amarelo -->
+        <p class="lead">Transporte, conforto e segurança para levar você, seu grupo ou sua empresa mais longe.</p> <!-- Frase de apoio -->
+        <div class="acoes"> <!-- Grupo de botões -->
+          <a class="btn btn-amarelo" href="#orcamento" data-evento="clique_orcamento_hero">Planejar minha viagem</a> <!-- Botão principal: leva ao formulário -->
+          <a class="btn btn-vazado" href="#frota" data-evento="clique_frota_hero">Conhecer nossa frota</a> <!-- Botão secundário: leva à frota -->
+        </div> <!-- Fim dos botões -->
+        <p class="dica-scroll"><span class="seta"></span>Role a página e acompanhe a viagem</p> <!-- Convite para rolar, com setinha animada -->
+      </div> <!-- Fim da coluna -->
+    </section> <!-- Fim da etapa 1 -->
+
+    <!-- ===================== 2. A EMPRESA ===================== -->
+    <section id="empresa" class="etapa" data-nome="A empresa"> <!-- Segunda etapa -->
+      <div class="conteudo painel"> <!-- "painel" = caixa de vidro fosco sobre a foto de fundo -->
+        <p class="km">KM 02 · Quem está por trás da viagem</p> <!-- Marcador estilo placa de estrada -->
+        <h2>Uma empresa feita de estrada.</h2> <!-- Título da seção -->
+        <p>A Litur Turismo leva grupos, famílias e empresas aos seus destinos com frota própria e atendimento próximo. <span class="pendente">[Inserir história oficial da empresa]</span></p> <!-- Texto curto; a história real deve ser fornecida pela empresa -->
+        <ul class="numeros"> <!-- Lista de números/destaques -->
+          <li><strong class="pendente">[ano]</strong><span>ano de fundação<br><small>o site antigo cita 1993 — confirmar</small></span></li> <!-- Ano: só usar depois de confirmado -->
+          <li><strong class="pendente">[nº]</strong><span>veículos na frota</span></li> <!-- Quantidade de veículos: a confirmar -->
+          <li><strong>DD</strong><span>ônibus de dois andares<br><small>visível no vídeo real</small></span></li> <!-- Fato confirmado pelo próprio vídeo -->
+          <li><strong>♿</strong><span>símbolo de acessibilidade<br><small>visível na lataria</small></span></li> <!-- Fato confirmado pelo próprio vídeo -->
+        </ul> <!-- Fim dos números -->
+      </div> <!-- Fim do painel -->
+    </section> <!-- Fim da etapa 2 -->
+
+    <!-- ===================== 3. SERVIÇOS ===================== -->
+    <section id="servicos" class="etapa" data-nome="Serviços"> <!-- Terceira etapa -->
+      <div class="conteudo painel"> <!-- Caixa de vidro -->
+        <p class="km">KM 03 · Para onde vamos?</p> <!-- Marcador -->
+        <h2>Um ônibus certo para cada tipo de viagem.</h2> <!-- Título -->
+        <div class="servicos" id="lista-servicos"></div> <!-- Vazio de propósito: o JavaScript (app.js) cria os serviços a partir de config.js -->
+      </div> <!-- Fim do painel -->
+    </section> <!-- Fim da etapa 3 -->
+
+    <!-- ===================== 4. FROTA (FOTOS DO INTERIOR) ===================== -->
+    <section id="frota" class="etapa etapa-larga" data-nome="Frota"> <!-- Quarta etapa; "etapa-larga" ocupa a tela toda -->
+      <div class="conteudo painel painel-largo"> <!-- Painel mais largo para caber as fotos -->
+        <p class="km">KM 04 · Conheça os veículos</p> <!-- Marcador -->
+        <h2>Entre no ônibus e sinta o conforto.</h2> <!-- Título -->
+        <div class="abas" role="tablist" id="abas-frota"></div> <!-- Abas dos veículos (criadas pelo JavaScript); role="tablist" = conjunto de abas -->
+        <div class="frota-grade"> <!-- Grade: fotos à esquerda, informações à direita -->
+          <figure class="carrossel"> <!-- Carrossel de fotos do interior (montado pelo js/carrossel.js) -->
+            <div class="carrossel-palco"> <!-- Área da foto grande (as setas e o contador ficam por cima) -->
+              <div class="carrossel-trilho" id="carrossel-trilho" tabindex="0" aria-label="Fotos do interior do veículo. Use as setas do teclado para passar."></div> <!-- Faixa horizontal com as fotos; tabindex="0" permite usar pelo teclado -->
+              <button type="button" class="carrossel-seta anterior" aria-label="Foto anterior">‹</button> <!-- Seta para voltar -->
+              <button type="button" class="carrossel-seta proxima" aria-label="Próxima foto">›</button> <!-- Seta para avançar -->
+              <span class="carrossel-contador" id="carrossel-contador" aria-live="polite">1 / 1</span> <!-- "2 / 3": aria-live faz o leitor de tela anunciar a troca -->
+            </div> <!-- Fim da área da foto -->
+            <figcaption id="carrossel-legenda"></figcaption> <!-- Legenda da foto atual -->
+            <div class="carrossel-miniaturas" id="carrossel-miniaturas"></div> <!-- Miniaturas clicáveis -->
+          </figure> <!-- Fim do carrossel -->
+          <div class="frota-info"> <!-- Coluna de informações -->
+            <h3 id="frota-nome">—</h3> <!-- Nome do veículo (preenchido pelo JavaScript) -->
+            <p id="frota-desc">—</p> <!-- Descrição do veículo -->
+            <dl id="frota-ficha"></dl> <!-- Ficha técnica (lista de termos e valores) -->
+            <a class="btn btn-amarelo" href="#orcamento" id="orcar-veiculo">Orçar este veículo</a> <!-- Botão que leva o veículo escolhido para o formulário -->
+            <p class="fonte-fotos">Fotos reais · Instagram @liturturismoltda · toque na foto para ampliar</p> <!-- Fonte das fotos -->
+          </div> <!-- Fim das informações -->
+        </div> <!-- Fim da grade -->
+      </div> <!-- Fim do painel -->
+    </section> <!-- Fim da etapa 4 -->
+
+    <!-- ===================== 5. CONFIANÇA (CERTIFICADOS + AVALIAÇÕES) ===================== -->
+    <section id="confianca" class="etapa" data-nome="Confiança"> <!-- Quinta etapa -->
+      <div class="conteudo painel"> <!-- Caixa de vidro -->
+        <p class="km">KM 05 · Por que confiar na Litur?</p> <!-- Marcador -->
+        <h2>Segurança que você pode conferir.</h2> <!-- Título -->
+        <div class="docs" id="lista-docs"></div> <!-- Cartões dos documentos (criados pelo JavaScript a partir de config.js) -->
+        <h3 class="subtitulo">O que dizem os passageiros</h3> <!-- Subtítulo das avaliações -->
+        <div class="depoimentos"> <!-- Área de depoimentos -->
+          <blockquote class="vazio">Espaço reservado para uma avaliação real do Google, com nome e data autorizados.</blockquote> <!-- Não inventamos depoimentos: deixamos o espaço pronto -->
+          <blockquote class="vazio">Espaço reservado para uma segunda avaliação real.</blockquote> <!-- Segundo espaço -->
+        </div> <!-- Fim dos depoimentos -->
+        <a class="btn btn-vazado" id="link-google" target="_blank" rel="noopener" data-evento="clique_google">Ver avaliações no Google ↗</a> <!-- Link para as avaliações reais no Google (endereço em config.js) -->
+      </div> <!-- Fim do painel -->
+    </section> <!-- Fim da etapa 5 -->
+
+    <!-- ===================== 6. ORÇAMENTO ===================== -->
+    <section id="orcamento" class="etapa etapa-larga" data-nome="Orçamento"> <!-- Sexta etapa: a conversão -->
+      <div class="conteudo painel painel-largo"> <!-- Caixa de vidro larga -->
+        <p class="km">KM 06 · Planeje sua viagem</p> <!-- Marcador -->
+        <h2>Peça seu orçamento em 1 minuto.</h2> <!-- Título -->
+        <p>Preencha os dados e enviamos tudo organizado para o WhatsApp da Litur.</p> <!-- Explicação curta -->
+        <form id="form" novalidate> <!-- Formulário; novalidate = usamos a nossa validação (mensagens em português e mais bonitas) -->
+          <div class="campos"> <!-- Grade de campos -->
+            <label>Nome* <input name="nome" required autocomplete="name"></label> <!-- Campo obrigatório; autocomplete preenche automaticamente -->
+            <label>WhatsApp* <input name="whatsapp" type="tel" required placeholder="(75) 9 9999-9999" autocomplete="tel"></label> <!-- type="tel" abre o teclado numérico no celular -->
+            <label>Tipo de viagem* <select name="tipo" required><option value="">Selecione</option></select></label> <!-- Opções criadas pelo JavaScript -->
+            <label>Veículo desejado <select name="veiculo"><option value="">Ainda não sei</option></select></label> <!-- Opções criadas pelo JavaScript -->
+            <label>Passageiros* <input name="passageiros" type="number" min="1" max="999" required inputmode="numeric"></label> <!-- Número entre 1 e 999 -->
+            <label>Tipo de contratação <select name="contratacao"><option value="">Selecione</option><option>Somente ida</option><option>Ida e volta</option><option>Ônibus à disposição</option></select></label> <!-- Como o cliente quer contratar -->
+            <label>Origem* <input name="origem" required placeholder="Cidade de saída"></label> <!-- De onde sai -->
+            <label>Destino* <input name="destino" required placeholder="Cidade de destino"></label> <!-- Para onde vai -->
+            <label>Data de ida* <input name="ida" type="date" required></label> <!-- Calendário nativo -->
+            <label>Horário de saída <input name="hora_ida" type="time"></label> <!-- Relógio nativo -->
+            <label>Data de retorno <input name="volta" type="date"></label> <!-- Opcional -->
+            <label>Horário de retorno <input name="hora_volta" type="time"></label> <!-- Opcional -->
+            <label class="cheio">Observações <textarea name="obs" rows="3" maxlength="600" placeholder="Paradas, bagagens, necessidades especiais..."></textarea></label> <!-- Texto livre, no máximo 600 caracteres -->
+          </div> <!-- Fim da grade -->
+          <p class="lgpd">Seus dados são usados apenas para responder a este orçamento.</p> <!-- Aviso de privacidade (LGPD) -->
+          <button class="btn btn-amarelo btn-grande" type="submit">Enviar pelo WhatsApp</button> <!-- Envia o formulário -->
+          <p id="form-status" role="status" aria-live="polite"></p> <!-- Mensagens de erro/sucesso; aria-live faz o leitor de tela anunciar -->
+        </form> <!-- Fim do formulário -->
+      </div> <!-- Fim do painel -->
+    </section> <!-- Fim da etapa 6 -->
+
+    <!-- ===================== 7. INSTAGRAM + FAQ ===================== -->
+    <section id="faq" class="etapa" data-nome="Dúvidas"> <!-- Sétima etapa -->
+      <div class="conteudo painel"> <!-- Caixa de vidro -->
+        <p class="km">KM 07 · Antes de embarcar</p> <!-- Marcador -->
+        <h2>Dúvidas frequentes</h2> <!-- Título -->
+        <div class="faq" id="lista-faq"></div> <!-- Perguntas criadas pelo JavaScript (texto em config.js) -->
+        <div class="insta"> <!-- Bloco do Instagram -->
+          <p><b>Bastidores, viagens e novidades</b><br>Acompanhe a Litur no Instagram.</p> <!-- Chamada -->
+          <a class="btn btn-vazado" id="link-insta" target="_blank" rel="noopener" data-evento="clique_instagram">@liturturismoltda ↗</a> <!-- Link para o perfil oficial (sem feed falso) -->
+        </div> <!-- Fim do Instagram -->
+      </div> <!-- Fim do painel -->
+    </section> <!-- Fim da etapa 7 -->
+
+    <!-- ===================== 8. A CHEGADA ===================== -->
+    <section id="chegada" class="etapa etapa-final" data-nome="A chegada"> <!-- Última etapa: a viagem "chega" ao destino -->
+      <div class="conteudo"> <!-- Coluna de texto -->
+        <p class="km">Destino final</p> <!-- Marcador -->
+        <h2 class="grande">Seu próximo destino começa aqui.</h2> <!-- Chamada final forte -->
+        <p class="lead">Conte com a Litur para transportar seu grupo com conforto, segurança e profissionalismo.</p> <!-- Frase de apoio -->
+        <a class="btn btn-amarelo btn-grande" href="#orcamento" data-evento="clique_orcamento_final">Solicitar meu orçamento</a> <!-- Último botão de conversão -->
+      </div> <!-- Fim da coluna -->
+    </section> <!-- Fim da etapa 8 -->
+  </main> <!-- Fim do conteúdo principal -->
+
+  <!-- ===================== RODAPÉ ===================== -->
+  <footer id="rodape"> <!-- Rodapé -->
+    <div class="rodape-grade"> <!-- Colunas do rodapé -->
+      <div><span class="marca"><span class="marca-l">L</span><span>Litur<b>Turismo</b></span></span><p>Fretamento de ônibus para excursões, eventos, viagens escolares e empresariais.</p></div> <!-- Coluna 1: marca -->
+      <div><b>Contato</b><p>WhatsApp: <span class="pendente">[número oficial]</span><br>Endereço: <span class="pendente">[endereço]</span><br>CNPJ: <span class="pendente">[CNPJ]</span></p></div> <!-- Coluna 2: contatos (a preencher) -->
+      <div><b>Links</b><p><a href="https://www.litur.com.br" target="_blank" rel="noopener">litur.com.br ↗</a><br><a href="#confianca">Documentação</a><br><a href="#" class="pendente-link">Política de privacidade [a criar]</a></p></div> <!-- Coluna 3: links -->
+    </div> <!-- Fim das colunas -->
+    <p class="direitos">© <span id="ano"></span> Litur Turismo. Todos os direitos reservados. · Proposta de landing page — demonstração.</p> <!-- O ano é preenchido pelo JavaScript -->
+  </footer> <!-- Fim do rodapé -->
+
+  <a class="zap-flutuante" href="#orcamento" aria-label="Falar pelo WhatsApp / pedir orçamento" data-evento="clique_whatsapp_flutuante"> <!-- Botão verde flutuante no canto -->
+    <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path fill="#fff" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-4-.6-5.7-1.6l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2l-1 1.2c-.2.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8.9 3.8.8a3.3 3.3 0 0 0 2.2-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.2-.3-.3-.5-.4z"/></svg> <!-- Ícone do WhatsApp desenhado em SVG -->
+  </a> <!-- Fim do botão flutuante -->
+
+  <dialog id="ampliar" aria-label="Foto ampliada"><img src="" alt=""><button type="button">Fechar ✕</button></dialog> <!-- Janela para ver a foto do interior em tamanho grande (aberta pelo carrossel.js) -->
+
+  <aside class="marcador-etapa" aria-hidden="true"><span id="etapa-num">01</span><span id="etapa-nome">A partida</span></aside> <!-- Marcador lateral que mostra em qual etapa da viagem estamos -->
+
+  <!-- ===================== SCRIPTS (a ordem importa!) ===================== -->
+  <script src="js/config.js" defer></script> <!-- defer = executa depois que o HTML carregou, na ordem escrita. 1º: dados da empresa (número, links, serviços, frota) -->
+  <script src="js/galeria-scroll.js" defer></script> <!-- 2º: fotos de fundo que trocam com o scroll -->
+  <script src="js/carrossel.js" defer></script> <!-- 3º: carrossel de fotos do interior dos veículos -->
+  <script src="js/app.js" defer></script> <!-- 4º: monta as seções, formulário, menu e liga tudo -->
+</body> <!-- Fim do conteúdo visível -->
+</html> <!-- Fim do documento -->
